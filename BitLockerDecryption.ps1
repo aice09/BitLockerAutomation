@@ -35,16 +35,16 @@ if ($driveChoice -eq "Exit") {
     exit
 }
 
-# If user chooses 'All', decrypt all encrypted drives
+# If user chooses 'All', decrypt all encrypted drives that are fully encrypted
 if ($driveChoice -eq "All") {
-    $selectedDrives = $bitLockerDrives
+    $selectedDrives = $bitLockerDrives | Where-Object { $_.EncryptionPercentage -eq 100 }
 } else {
-    $selectedDrives = $bitLockerDrives | Where-Object { $_.MountPoint -in $driveChoice.Split(",") }
+    $selectedDrives = $bitLockerDrives | Where-Object { $_.MountPoint -in $driveChoice.Split(",") -and $_.EncryptionPercentage -eq 100 }
 }
 
 # === Confirm decryption of selected drives ===
 if ($selectedDrives.Count -eq 0) {
-    Write-Host "No valid drives selected. Exiting script." -ForegroundColor Red
+    Write-Host "No valid drives selected or the selected drives are not fully encrypted. Exiting script." -ForegroundColor Red
     exit
 }
 
