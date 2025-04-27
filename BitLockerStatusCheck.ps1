@@ -78,14 +78,19 @@ Write-Host $partitionStyleStatus -ForegroundColor $partitionStyleColor
 
 Write-Host "=== Check Complete ===" -ForegroundColor Cyan
 
-# Calculate overall status
+# Calculate overall status and return reason
 $failures = 0
-$failures += if ($adminColor -eq "Red") { 1 } else { 0 }
-$failures += if ($editionColor -eq "Red") { 1 } else { 0 }
-$failures += if ($tpmColor -eq "Red") { 1 } else { 0 }
-$failures += if ($secureBootColor -eq "Red" -or $secureBootColor -eq "Yellow") { 1 } else { 0 }
-$failures += if ($bootModeColor -eq "Red") { 1 } else { 0 }
-$failures += if ($partitionStyleColor -eq "Red") { 1 } else { 0 }
+$returnReason = ""
+
+$failures += if ($adminColor -eq "Red") { $returnReason += "Admin Privileges, "; 1 } else { 0 }
+$failures += if ($editionColor -eq "Red") { $returnReason += "Windows Edition, "; 1 } else { 0 }
+$failures += if ($tpmColor -eq "Red") { $returnReason += "TPM, "; 1 } else { 0 }
+$failures += if ($secureBootColor -eq "Red" -or $secureBootColor -eq "Yellow") { $returnReason += "Secure Boot, "; 1 } else { 0 }
+$failures += if ($bootModeColor -eq "Red") { $returnReason += "Boot Mode, "; 1 } else { 0 }
+$failures += if ($partitionStyleColor -eq "Red") { $returnReason += "Disk Partition Style, "; 1 } else { 0 }
+
+# Trim the last comma and space
+$returnReason = $returnReason.TrimEnd(", ")
 
 # Overall status
 if ($failures -gt 0) {
@@ -98,3 +103,4 @@ if ($failures -gt 0) {
 
 # Display overall status with color
 Write-Host "Overall Status: $overallStatus" -ForegroundColor $overallColor
+Write-Host "Return Reason: $returnReason" -ForegroundColor $overallColor
