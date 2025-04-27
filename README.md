@@ -212,10 +212,3 @@ For any issues or suggestions, please feel free to open an issue on GitHub.
 
 ### Disclaimer
 This is a personal project and is provided "as is" without warranty of any kind.
-
-### Key Updates:
-- Added **BitLocker monitoring** instructions under the **Usage** section.
-- Included an **example output** of the monitoring process so users know what to expect.
-- Mentioned that the **BitLockerMonitor.ps1** script monitors all drives that need encryption or decryption.
-
-Let me know if you'd like me to tweak or add anything else!
